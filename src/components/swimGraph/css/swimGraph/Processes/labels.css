@@ -1,0 +1,104 @@
+.thread-labels {
+  width: 240px;
+  position: relative;
+  background: var(--devui-swim-global-bg);
+  border-right: 1px solid var(--devui-swim-split-line);
+}
+
+.thread-labels-loop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  color: var(--devui-thread-text);
+}
+.thread-labels-loop.active {
+  background-color: var(--devui-font-badge-bg);
+}
+.thread-labels-loop.activeS {
+  background: var(--devui-search-active-bg);
+  color: var(--devui-title-text) !important;
+  width: 250px;
+}
+.thread-labels-loop::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 250px;
+  border-bottom: 1px solid var(--devui-swim-split-line);
+}
+
+.has-threads-box{
+  width: 140px !important;
+  text-align: left;
+}
+
+.threads-box {
+  margin-right: 16px;
+  margin-left: 8px;
+  width: 90px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  backdrop-filter: blur(10px);
+  box-sizing: border-box;
+  border: 1px solid var(--devui-nest-bg);
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0;
+  text-align: left;
+  padding-left: 8px;
+  position: relative;
+}
+
+.threads-fill {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  backdrop-filter: blur(10px);
+  background: var(--devui-timebar-bg);
+  z-index: 1;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.threads-fill--full {
+  width: 100%;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.threads-text {
+  position: relative;
+  z-index: 2;
+}
+
+.thread-labels-loop.activeS .threads-box .threads-fill {
+  background: var(--devui-modal-line) !important;
+}
+
+.threads-fill:hover + .thread-text {
+  color: #e6e6e6;
+}
+
+.thread-labels,
+.threads-text {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.threads-text.utilization-text {
+  position: absolute;
+  right: 8px;
+  left: auto;
+  text-align: right;
+}
+
+.fake-core-tip{
+  margin-left: 4px;
+  padding-top: 4px;
+}

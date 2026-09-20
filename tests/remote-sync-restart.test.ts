@@ -1,0 +1,11 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';
+import {mkdtemp,rm} from 'node:fs/promises';import os from 'node:os';import path from 'node:path';
+import {Client} from '@modelcontextprotocol/sdk/client/index.js';import {StreamableHTTPClientTransport} from '@modelcontextprotocol/sdk/client/streamableHttp.js';
+import {RemoteFiles} from '../src/remote/files';import {startRemoteLocal} from '../src/remote/http';
+test('pending browser sync survives backend restart and repeated confirmation',async()=>{
+ const root=await mkdtemp(path.join(os.tmpdir(),'pto-sync-'));let files=await new RemoteFiles(root).init();let server=await startRemoteLocal(files,path.resolve('dist'),a=>a==='Bearer test'?'owner':null);let client:Client;
+ const connect=async()=>{client=new Client({name:'sync-restart',version:'1'});await client.connect(new StreamableHTTPClientTransport(new URL(server.origin+'/mcp'),{requestInit:{headers:{Authorization:'Bearer test'}}}));};
+ const call=async(name:string,args={})=>JSON.parse(((await client.callTool({name,arguments:args})).content as any)[0].text);
+ try{await connect();const v=await call('create_upload_session'),p=new URLSearchParams(new URL(v.upload_url).hash.slice(1));const redeemed=await fetch(server.origin+'/api/redeem',{method:'POST',headers:{Origin:server.origin,'Content-Type':'application/json'},body:JSON.stringify({view:v.view_session_id,grant:p.get('grant')})});const cookie=redeemed.headers.get('set-cookie')!.split(';')[0],csrf=(await redeemed.json()).csrf;const url=server.origin+'/api/views/'+v.view_session_id+'/sync';const sync=await(await fetch(url,{method:'POST',headers:{Origin:server.origin,Cookie:cookie,'X-PTO-CSRF':csrf}})).json();const port=Number(new URL(server.origin).port);await client.close();await server.close();await files.dispose();files=await new RemoteFiles(root).init();server=await startRemoteLocal(files,path.resolve('dist'),a=>a==='Bearer test'?'owner':null,{port});await connect();for(let i=0;i<2;i++)assert.equal((await call('confirm_view_sync',{view_session_id:v.view_session_id,sync_id:sync.sync_id})).synced,true);assert.equal((await(await fetch(url+'/'+sync.sync_id,{headers:{Cookie:cookie}})).json()).confirmed,true);}
+ finally{await client!.close();await server.close();await files.dispose();await rm(root,{recursive:true,force:true});}
+});

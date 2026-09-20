@@ -1,0 +1,48 @@
+.dispatch-aic-status-area{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.dispatch-aic-area{
+  border: 1px solid var(--lineColor);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  padding: 3px;
+  background: transparent;
+  min-width: fit-content; 
+  min-height: fit-content;
+  width: calc((var(--aic-thread-num) / 2) * 14 + 6);
+}
+
+.dispatch-aic-area .row{
+  display: flex;
+  gap: 2px;
+  margin-bottom: 2px;
+  width: 100%;
+  flex-wrap: nowrap;
+}
+
+.dispatch-aic-area .row:last-child{
+  margin-bottom: 0;
+}
+
+.dispatch-aic-area .row > div{
+  flex: 0 0 12px;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  background-color: var(--divDefaultColor);
+}
+
+.dispatch-aic-area .row > div >div.active{
+  width: 12px;
+  height: 12px;
+  background-color: rgba(1, 145, 255, 1);
+}
+
+.dispatch-aic-area .row > div >div.active:hover{
+  background-color: #A1C9FF;
+}

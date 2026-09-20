@@ -1,0 +1,13 @@
+<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" fill="none" customFrame="#000000">
+	<g id="左展开/16px">
+		<rect id="矩形 75599" width="16" height="16" x="0" y="0" opacity="0.199999988" fill="rgb(196,196,196)" fill-opacity="0" />
+		<path id="矢量 3372" d="M3.23828 3.01562L13.3838 8.02734L3.23828 13.1914" opacity="0.5" stroke="rgb(179,179,179)" stroke-width="1" />
+		<path id="矢量 3373" d="M8.19864 10.4422L3.23828 8.19141" opacity="0.5" stroke="rgb(179,179,179)" stroke-width="1" />
+		<circle id="椭圆 2485" cx="3.25" cy="3" r="1.75" fill="rgb(179,179,179)" />
+		<circle id="椭圆 2486" cx="3.25" cy="8" r="1.75" fill="rgb(179,179,179)" />
+		<circle id="椭圆 2488" cx="13.25" cy="8" r="1.75" fill="rgb(179,179,179)" />
+		<circle id="椭圆 2489" cx="8.24804688" cy="5.5" r="1.75" fill="rgb(179,179,179)" />
+		<circle id="椭圆 2490" cx="8.24804688" cy="10.5" r="1.75" fill="rgb(179,179,179)" />
+		<circle id="椭圆 2487" cx="3.25" cy="13" r="1.75" fill="rgb(179,179,179)" />
+	</g>
+</svg>

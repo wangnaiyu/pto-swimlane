@@ -1,0 +1,5 @@
+import {spawn} from 'node:child_process';import {readFile} from 'node:fs/promises';
+const [dir,count]=process.argv.slice(2);const start=Date.now();const children=[];let peak=0;const sampler=setInterval(async()=>{try{peak=Math.max(peak,Number(await readFile('/sys/fs/cgroup/memory.current','utf8')));}catch{}},20);
+const timer=setTimeout(()=>{for(const c of children)c.kill('SIGKILL');},85000);
+const results=await Promise.all(Array.from({length:Number(count)},()=>new Promise(resolve=>{const c=spawn(process.execPath,['--max-old-space-size=1024','/work/capacity-l2.mjs','parse',dir],{stdio:['ignore','pipe','pipe']});children.push(c);let out='',err='';c.stdout.on('data',s=>out+=s);c.stderr.on('data',s=>err+=s);c.on('exit',(code,signal)=>resolve({code,signal,output:out,error:err.slice(-500)}));})));
+clearTimeout(timer);clearInterval(sampler);let cgroupPeak;try{cgroupPeak=Number(await readFile('/sys/fs/cgroup/memory.peak','utf8'));}catch{}console.log(JSON.stringify({count:Number(count),elapsed_ms:Date.now()-start,sampled_cgroup_peak_bytes:peak,cgroup_peak_bytes:cgroupPeak,results}));if(results.some(r=>r.code!==0))process.exitCode=1;

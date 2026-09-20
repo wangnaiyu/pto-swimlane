@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+if [ "$(id -u)" != 0 ]; then echo '请使用 sudo pto-swimlane-access ...' >&2; exit 1; fi
+CONTAINER=${PTO_SWIMLANE_CONTAINER:?Set PTO_SWIMLANE_CONTAINER to the authorized container name}
+case "${1:-}" in create|reset)
+  if [ -t 0 ] && [ -t 1 ]; then
+    exec docker exec -it "$CONTAINER" node --import tsx node_modules/pto-swimlane/src/remote/access-admin.ts "$@"
+  fi;;
+esac
+exec docker exec "$CONTAINER" node --import tsx node_modules/pto-swimlane/src/remote/access-admin.ts "$@"

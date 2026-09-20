@@ -1,0 +1,7 @@
+#!/bin/bash
+set -eu
+account=$(/usr/bin/id -un)
+token=$(/usr/bin/security find-generic-password -a "$account" -s pto-swimlane-mcp -w 2>/dev/null) || { echo '无法读取泳道 Token，请重新运行安装程序。' >&2; exit 1; }
+trap 'unset token' EXIT
+[[ "$token" =~ ^[A-Za-z0-9_-]{43}$ ]] || { echo '泳道 Token 格式错误，请重新安装。' >&2; exit 1; }
+printf '{"Authorization":"Bearer %s"}\n' "$token"

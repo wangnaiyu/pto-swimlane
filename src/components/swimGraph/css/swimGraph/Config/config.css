@@ -1,0 +1,129 @@
+.cfgEdit {
+    width: 300px;
+    height: auto;
+    border-radius: 8px;
+    position: absolute;
+    background: var(--devui-select-bg);
+    border: 1px solid var(--devui-swim-split-line);
+    z-index: 200;
+    word-wrap: break-word;
+    color: var(--devui-tooltip-text);
+    right: 8px;
+    display: flex;
+    padding: 16px;
+}
+
+.cfgEdit.fixed-height {
+    width: 320px;
+    height: 400px;
+}
+.cfgEdit.fixed-height .cfg-content {
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1;
+}
+
+.cfg-title {
+    width: auto;
+    height: 24px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0px;
+    text-align: left;
+}
+
+.cfg-head {
+    display: flex;
+}
+
+.cfg-close-button {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 12px;
+    right: 24px;
+    cursor: pointer;
+    color: var(--devui-swim-text-title);
+}
+
+.cfg-close-button.three-column {
+    right: 40px;
+}
+
+.cfg-Shading-mode {
+    margin-top: 16px;
+}
+
+.cfg-hash-mode {
+    margin-top: 16px;
+}
+
+.cfg-Shading-mode-t {
+    color: var(--devui-secondary-text);
+    height: 20px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0px;
+    text-align: left;
+    margin-bottom: 4px;
+}
+
+.task-content,.performance-panel-config {
+    margin-top: 16px;
+}
+
+.task-content,.mix-model-config {
+    margin-top: 16px;
+}
+
+.task-content-t {
+    color: var(--devui-secondary-text);
+    height: 20px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: left;
+    margin-bottom: 4px;
+}
+
+.task-connection-level {
+    margin-top: 16px;
+}
+
+.task-connection-level-t {
+    color: var(--devui-secondary-text);
+    height: 20px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: left;
+}
+
+.cfg-line {
+    width: 262px;
+    height: 0;
+    border: 1px solid var(--devui-slider-container-bg);
+    margin-bottom: 8px;
+}
+
+.cfg-section {
+    margin-bottom: 8px;
+}
+.cfg-section-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--devui-primary-text);
+    margin-bottom: 10px;
+}
+
+.help-font{
+    font-size: 15px;
+    margin-left: 6px !important;
+    line-height: 20px !important;
+  }
+
+.mb6{
+    margin-bottom: 6px;
+    color: var(--devui-secondary-text);
+}

@@ -1,0 +1,12 @@
+/** Local administrator only. Secrets are written once to a new private file, never stdout. */
+import {parseArgs} from 'node:util';import {DatabaseSync} from 'node:sqlite';import {open,lstat,rm} from 'node:fs/promises';import path from 'node:path';import {Credentials} from './credentials';
+process.umask(0o077);
+const {values,positionals}=parseArgs({allowPositionals:true,options:{database:{type:'string'},owner:{type:'string'},expires:{type:'string'},output:{type:'string'}}});
+const action=positionals[0];if(!['issue','revoke','delete','unexpire'].includes(action)||!values.database||!values.owner)throw Error('issue|revoke|delete|unexpire --database <existing state.db> --owner <id> [--expires <ISO timestamp> --output <new private file>]');
+const info=await lstat(values.database);if(!info.isFile()||info.isSymbolicLink()||(info.mode&0o077))throw Error('Database must be an existing private regular file');
+const db=new DatabaseSync(values.database);db.exec('PRAGMA busy_timeout=5000');const credentials=new Credentials(db);
+try{if(action==='unexpire'){const r=db.prepare('UPDATE credentials SET expires=0 WHERE owner=? AND revoked=0').run(values.owner);if(r.changes!==1)throw Error('Active credential not found');console.log('Credential no longer expires; token unchanged.');}else if(action==='delete'){credentials.remove(values.owner);console.log('Credential deleted and browser authorization cleared.');}else if(action==='revoke'){credentials.revoke(values.owner);console.log('Credential and browser grants/sessions revoked for '+values.owner);}else{
+ if(!values.output)throw Error('issue requires private output path');const expires=values.expires?Date.parse(values.expires):0;if(!Number.isSafeInteger(expires)||(expires!==0 && expires<=Date.now()))throw Error('Expiry must be in the future');
+ const parent=await lstat(path.dirname(path.resolve(values.output)));if(!parent.isDirectory()||parent.isSymbolicLink()||(parent.mode&0o077))throw Error('Output directory must be private (0700)');
+ const file=await open(values.output,'wx',0o600);try{const token=credentials.issue(values.owner,expires);await file.writeFile(JSON.stringify({owner:values.owner,expires_at:expires,token},null,2)+'\n');console.log('Credential saved to the requested private file; prior credential and browser sessions revoked.');}catch(e){credentials.revoke(values.owner);await rm(values.output,{force:true});throw e;}finally{await file.close();}
+}}finally{db.close();}

@@ -1,0 +1,122 @@
+.thread-events {
+  position: relative;
+}
+
+.events-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.ui-events-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.dependency-events-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hover-events-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.background-events-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: var(--devui-swim-global-bg);
+}
+
+.wrap-container-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.hover-wrap-container-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.mix-hover-events-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.mix-dependency-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.line-events-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.selection-events-canvas,
+.three-column-events-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.lock-indicator {
+  position: absolute;
+  z-index: 100;
+  font-size: 16px;
+  cursor: pointer;
+  filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.5));
+}
+
+.swim-lock-information {
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 180px;
+  left: 700px;
+  transform: translateX(-50%);
+
+  background: var(--devui-warning-bg);
+  box-shadow: var(--devui-select-shadow);
+  border-radius: 8px;
+  padding: 10px 12px;
+  height: 40px;
+}
+
+.swim-lock-information-item {
+  display: flex;
+  justify-content: center;
+  border-radius: 4px;
+
+  color: var(--devui-status-warning-text);
+  font-size: 13px;
+  line-height: 20px;
+  height: 20px;
+  white-space: nowrap;
+}

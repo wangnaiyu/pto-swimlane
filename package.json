@@ -1,0 +1,77 @@
+{
+  "name": "pto-swimlane",
+  "version": "0.4.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "node --import tsx --test tests/parser.test.ts",
+    "test:browser": "node tests/browser.mjs",
+    "mcp": "node bin/pto-swimlane.mjs",
+    "test:mcp": "node --import tsx --test tests/mcp.test.ts",
+    "test:mcp-browser": "node tests/mcp-browser.mjs",
+    "test:codex": "node tests/codex-smoke.mjs",
+    "test:b1": "node --import tsx --test tests/b1.test.ts",
+    "test:b1-browser": "node tests/b1-browser.mjs",
+    "prepack": "npm run build",
+    "pack:local": "node -e \"require('fs').mkdirSync('.local',{recursive:true})\" && npm pack --pack-destination .local",
+    "test:distribution": "node tests/distribution.mjs",
+    "test:dataset-race": "node tests/dataset-race.mjs",
+    "test:remote": "node --import tsx --test tests/remote-*.test.ts",
+    "test:remote-browser": "node --import tsx tests/remote-browser.ts",
+    "test:remote-codex": "node --import tsx tests/remote-auth-codex.ts",
+    "pack:macos": "python3 scripts/package-macos.py .local/PTO-Swimlane-MCP-macOS.zip",
+    "pack:windows": "python3 scripts/package-windows.py scripts/windows .local/PTO-Swimlane-MCP-Windows.zip"
+  },
+  "dependencies": {
+    "@material/material-color-utilities": "^0.3.0",
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "zod": "3.25.76",
+    "tsx": "^4.20.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.61.1",
+    "@vitejs/plugin-vue": "6.0.8",
+    "sass": "^1.90.0",
+    "typescript": "~5.4.0",
+    "vite": "8.1.5",
+    "@devui-design/icons": "^1.4.0",
+    "@pypto/data-compress": "^0.0.8",
+    "bignumber.js": "9.3.1",
+    "decimal.js": "10.6.0",
+    "devui-theme": "^0.1.0",
+    "lodash-es": "^4.18.1",
+    "vue": "3.5.21",
+    "vue-devui": "^1.6.37",
+    "vue-i18n": "11.1.10"
+  },
+  "overrides": {
+    "glob": "^10.5.0",
+    "katex": "^0.16.21"
+  },
+  "engines": {
+    "node": ">=22.12"
+  },
+  "bin": {
+    "pto-swimlane": "bin/pto-swimlane.mjs"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "dist/",
+    "docs/",
+    "LICENSE",
+    "Third_Party_Open_Source_Software_List.yaml",
+    "Third_Party_Open_Source_Software_Notice",
+    "UPSTREAM.md",
+    "upstream-files.json",
+    "tests/fixtures/L2-synthetic/",
+    "scripts/macos/",
+    "scripts/pto-swimlane-access",
+    "scripts/package-macos.py",
+    "scripts/windows/",
+    "scripts/package-windows.py"
+  ]
+}

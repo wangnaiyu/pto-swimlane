@@ -1,0 +1,62 @@
+{
+  "data_level": "L2",
+  "description": "Artificial protocol acceptance fixture; no measured data.",
+  "traceEvents": [
+    {
+      "name": "process_name",
+      "ph": "M",
+      "pid": 1,
+      "args": {
+        "name": "Machine"
+      }
+    },
+    {
+      "name": "thread_name",
+      "ph": "M",
+      "pid": 1,
+      "tid": 1,
+      "args": {
+        "name": "L2 synthetic lane"
+      }
+    },
+    {
+      "name": "L2_synthetic_task_1",
+      "ph": "X",
+      "pid": 1,
+      "tid": 1,
+      "ts": 0,
+      "dur": 2,
+      "args": {
+        "seqNo": 0,
+        "taskId": 1,
+        "leafIndex": 1
+      }
+    },
+    {
+      "name": "L2_synthetic_task_2",
+      "ph": "X",
+      "pid": 1,
+      "tid": 1,
+      "ts": 3,
+      "dur": 5,
+      "args": {
+        "seqNo": 0,
+        "taskId": 2,
+        "leafIndex": 2
+      }
+    },
+    {
+      "name": "L2_synthetic_task_3",
+      "ph": "X",
+      "pid": 1,
+      "tid": 1,
+      "ts": 9,
+      "dur": 1,
+      "args": {
+        "seqNo": 0,
+        "taskId": 3,
+        "leafIndex": 3
+      }
+    }
+  ]
+}

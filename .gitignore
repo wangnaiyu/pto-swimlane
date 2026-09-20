@@ -1,0 +1,26 @@
+node_modules/
+dist/
+.local/
+test-results/
+.DS_Store
+/.mcp.json
+
+# Private runtime material and release outputs
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.db
+*.db-*
+*.sqlite*
+*.zip
+*.tgz
+*.log
+credentials/
+uploads/
+private/
+*credential*.json
+config.toml*

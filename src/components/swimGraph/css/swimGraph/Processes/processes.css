@@ -1,0 +1,9 @@
+/* 进程和线程区域 */
+.processes-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.threads-container {
+  display: flex;
+}

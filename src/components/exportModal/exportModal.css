@@ -1,0 +1,36 @@
+.export-modal-containner.devui-modal {
+    width: 500px;
+    height: 300px;
+    background-color: var(--devui-global-bg);
+    border: 1px solid var(--devui-modal-line);
+  }
+  .export-modal-containner-local {
+    height: 200px !important;
+  }
+  .export-title {
+    color: var(--devui-swim-text-title);
+    font-size: 14px;
+  }
+  .mt20 {
+    margin-top: 20px;
+  }
+  .mt10 {
+    margin-top: 10px;
+  }
+  .export-fold {
+    display:flex;
+  }
+  .export-modal-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: transparent;
+    opacity: 1;
+    z-index: 1051;
+    cursor: not-allowed;
+  }
+  .export-form-width {
+    width: 100%;
+  }

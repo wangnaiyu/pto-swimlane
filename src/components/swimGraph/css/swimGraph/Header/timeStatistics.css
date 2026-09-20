@@ -1,0 +1,103 @@
+.time-statistics-complete-containner {
+    .time-type-width {
+        width: 200px;
+    }
+    .ml0 {
+        margin-left:0;
+    }
+    .header-label-color {
+        color: var(--devui-detail-text);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .header-label-content {
+        display: flex;
+        align-items: center;
+    }
+    .mr4 {
+        margin-right: 4px;
+    }
+    .font-size-16 {
+        font-size: 16px;
+    }
+    .padding16 {
+        padding:16px;
+    }
+    .cursor-style {
+        cursor: pointer;
+    }
+    .table-overflow {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .chart-containner {
+        width: 99%;
+        height: 400px;
+    }
+    .time-distribution-text {
+        font-size:12px;
+        color: var(--devui-detail-text);
+    }
+    .time-distribution-line {
+        font-size:12px;
+        color: var(--devui-modal-line);
+        margin: 0 6px;
+    }
+    .time-distribution-id {
+        font-size:13px;
+        font-weight:400;
+        color: var(--devui-swim-text-title);
+        padding-left: 8px;
+    }
+    .time-statistics-color {
+        color: var(--devui-swim-text-title);
+    }
+    .back-color {
+        color: var(--devui-swim-text-title);
+        margin-right: 6px;
+    }
+    .ml10 {
+        margin-left: 10px;
+    }
+    .ml4 {
+        margin-left: 4px;
+    }
+    .font-size-20 {
+        font-size: 20px;
+    }
+    .echarts-tooltip-containner {
+        display:flex; 
+        justify-content:space-between;
+        margin-top: 4px;
+        align-items:center;
+    }
+}
+.time-statistics-graph-content {
+    box-sizing: border-box;
+    border: 1px solid var(--devui-swim-split-line);
+    border-radius: 12px;
+    background: var(--devui-swim-split-line);
+    margin-top: 10px;
+    max-height: calc(100vh - 230px);
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 999px;
+    }
+}
+
+.scroll-container {
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+#scroll-container-id>* {
+    margin-top: 0;
+}

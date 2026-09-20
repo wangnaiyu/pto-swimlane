@@ -1,0 +1,103 @@
+.core-details {
+    height: 0px;
+    background: var(--devui-swim-detail-bg);
+    transition: height 0.3s ease;
+    overflow: hidden;
+  }
+  
+  .core-details.expanded {
+    height: 226px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  
+  .core-details-content {
+    display: flex;
+    width: 100%;
+    height: 226px !important;
+    border-radius: 12px;
+    box-shadow: var(--devui-detail-boxshadow);
+    background: var(--devui-swim-detail-bg);
+    position: relative;
+  }
+  
+  .close-button {
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    margin-top: 8px;
+    right: 16px;
+    margin-right: auto;
+    cursor: pointer;
+    font-size: 16px;
+    color: whitesmoke;
+  }
+
+  .relevent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    margin-left: 16px;
+    overflow-x: auto;
+  }
+  
+  .relevent-title {
+    height: 22px;
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: var(--devui-primary-text);
+    font-size: 14px;
+  }
+  
+  .relevent-content {
+    display: flex;
+    flex-direction: row;
+    margin-top: 8px;
+    min-width: max-content;
+  }
+  
+  .title {
+    width: auto;
+    height: 20px;
+    color: var(--devui-secondary-text);
+    white-space: nowrap;
+    margin-bottom: 10px;
+  }
+  .current {
+    display: flex;
+    align-items: center;
+    justify-content: center;    
+  }
+  
+  .content {
+    width: auto;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    padding: 1px 8px 1px 8px;
+  }
+  
+  .gradient-dashed-line {
+    margin-top: 38px;
+  }
+  
+  .vec-content {
+    margin-left: 4px;
+  }
+  
+  .schedule-title{
+    width: auto;
+    height: 20px;
+    color: var(--devui-secondary-text);
+    white-space: nowrap;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .sched {
+    white-space: nowrap;
+  }

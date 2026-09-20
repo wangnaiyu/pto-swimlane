@@ -1,0 +1,16 @@
+<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" fill="none" customFrame="#000000">
+	<rect id="ic_计算/16px" width="16" height="16.0000019" x="0" y="0" />
+	<rect id="矩形 5401" width="16" height="16" x="0" y="0" rx="4" fill="rgb(230,230,230)" />
+	<rect id="矩形 5401" width="14.5" height="14.5" x="0.75" y="0.75" rx="4" stroke="rgb(25,25,25)" stroke-opacity="0" stroke-width="1.5" />
+	<g id="组合 8153">
+		<rect id="矩形 5243" width="12" height="12.0000019" x="2" y="2" opacity="0" fill="rgb(196,196,196)" />
+		<rect id="矩形 5243" width="11.333333" height="11.3333349" x="2.33333325" y="2.33333325" opacity="0" stroke="rgb(0,0,0)" stroke-width="0.666666687" />
+		<path id="矢量 1983" d="M9.5 9.5L12.5 9.5" stroke="rgb(0,0,0)" stroke-width="1.5" />
+		<path id="矢量 1985" d="M9.5 12L12.5 12" stroke="rgb(0,0,0)" stroke-width="1.5" />
+		<g id="组合 8406">
+			<path id="矢量 1981" d="M3 5L7 5" stroke="rgb(0,0,0)" stroke-width="1.5" />
+			<path id="矢量 1982" d="M0 0L4 0" stroke="rgb(0,0,0)" stroke-linecap="round" stroke-width="1.5" transform="matrix(0,1,-1,0,5.00049,3)" />
+		</g>
+		<path id="矢量 1984" d="M0 0L12 0" stroke="rgb(0,0,0)" stroke-width="1.5" transform="matrix(0.707107,-0.707107,0.70736,0.706854,3.75781,12.2432)" />
+	</g>
+</svg>

@@ -1,0 +1,38 @@
+.lockMenu {
+    width: auto;
+    height: auto;
+    border-radius: 8px;
+    position: absolute;
+    background: var(--devui-select-bg);
+    border: 1px solid var(--devui-swim-split-line);
+    z-index: 1001;
+    word-wrap: break-word;
+    color: var(--devui-tooltip-text);
+    display: flex;
+    padding: 3px 3px 3px 3px;
+}
+
+.pathway-lockout-area {
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    gap: 15px;
+    white-space: nowrap;
+    padding: 5px 5px 5px 5px;
+}
+
+.pathway-lockout-area:hover {
+    background-color: var(--devui-input-hover-bg);
+}
+
+.pathway-lockout {
+    color: var(--devui-tooltip-text);
+    font-size: 13px;
+    font-weight: 300;
+}
+
+.pathway-lockout-key {
+    color: var(--devui-secondary-text);
+    font-weight: 400;
+    font-size: 12px;
+}

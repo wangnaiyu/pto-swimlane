@@ -1,0 +1,236 @@
+.shortCutKeyDescriptionEdit {
+    width: 450px;
+    height: auto;
+    border-radius: 16px;
+    position: absolute;
+    background: var(--devui-select-bg);
+    border: 1px solid var(--devui-swim-split-line);
+    z-index: 1053;
+    word-wrap: break-word;
+    color: var(--devui-tooltip-text);
+    top: 60px;
+    right: 120px;
+    display: flex;
+    padding: 16px 20px 20px 20px;
+}
+
+.shortCutKey-content {
+    display: flex;  
+    flex-direction: column;
+    width: 100%;
+}
+
+.shortCutKey-head {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.shortCutKey-title {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1;
+    text-align: left;
+}
+
+.shortCutKey-note {
+    margin-bottom: 12px;
+    font-size: 13px;
+    font-weight: 400;
+    background-color: rgba(246, 158, 57, 0.2);
+    padding: 3px 8px 3px;
+    width: 100%;
+}
+
+.shortCutKey-note-content {
+    display: flex;
+    align-items: center;
+}
+
+.warning-text{
+    margin-left: 6px;
+}
+
+
+.shortCutKey-information {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.shortCutKey-mouse-key {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+}
+
+.shortCutKey-mouseContorl {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: var(--devui-secondary-text);
+    font-weight: 400;
+    font-size: 13px;
+}
+
+.shortCutKey-composeContorl {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: var(--devui-secondary-text);
+    font-weight: 400;
+    font-size: 13px;
+}
+
+.shortCutKey-keyboardContorl {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: var(--devui-secondary-text);
+    font-weight: 400;
+    font-size: 13px;
+}
+
+.mousecontorl {
+    color: var(--devui-tooltip-text);
+    font-weight: 700;
+}
+
+.combinedcontrol {
+    color: var(--devui-tooltip-text);
+    font-weight: 700;
+}
+
+.keyboardcontrol {
+    color: var(--devui-tooltip-text);
+    font-weight: 700;
+}
+
+.verticalmovement {
+    display: flex;
+    align-items: center;
+}
+
+.verticalmovement-text {
+    margin-right: var(--verticalmovementDistance);
+}
+
+.singleandboxselection {
+    display: flex;
+    align-items: center;
+}
+
+.singleandboxselection-text {
+    margin-right: var(--singleandboxselectionDistance);
+}
+
+.dragAndDrop {
+    display: flex;
+    align-items: center;
+}
+
+.dragAndDrop-text {
+    margin-right: var(--dragAndDropDistance);
+}
+
+.dragAndDrop-img1 {
+    margin-right: 8px;
+}
+
+.dragAndDrop-space {
+    margin: 0 8px;
+}
+
+.scaling {
+    display: flex;
+    align-items: center;
+}
+
+.scaling-text {
+    margin-right: var(--scalingDistance);
+}
+
+.scaling-img1 {
+    margin-right: 8px;
+}
+
+.scaling-space {
+    margin: 0 8px;
+}
+
+.timemeasurement {
+    display: flex;
+    align-items: center;
+}
+
+.timemeasurement-text {
+    margin-right: var(--timemeasurementDistance);
+}
+
+.timemeasurement-img1 {
+    margin-right: 8px;
+}
+
+.boxSelect {
+    display: flex;
+    align-items: center;
+}
+
+.boxSelect-text {
+    margin-right: var(--boxSelectDistance);
+}
+
+.boxSelect-space {
+    margin: 0 8px;
+}
+
+.scalingKeyboard {
+    display: flex;
+    gap: 16px;
+}
+
+.zoomin {
+    display: flex;
+    align-items: center;
+}
+
+.zoomin-text {
+    margin-right: var(--zoomInDistance);
+}
+
+.zoomout {
+    display: flex;
+    align-items: center;
+}
+
+.zoomout-text {
+    margin-right: var(--zoomOutDistance);
+}
+
+.moveKeyboard {
+    display: flex;
+    gap: 16px;
+}
+
+.leftshifting {
+    display: flex;
+    align-items: center;
+}
+
+.leftshifting-text {
+    margin-right: var(--leftshiftingDistance);
+}
+
+.rightshifting {
+    display: flex;
+    align-items: center;
+}
+
+.rightshifting-text {
+    margin-right: var(--rightshiftingDistance);
+}
+
+
+

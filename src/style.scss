@@ -1,0 +1,97 @@
+@use 'devui-theme/styles-var/devui-var.scss' as *;
+
+html {
+  scrollbar-color: unset;
+  overflow-y: hidden;
+  body {
+    padding: 0 !important;
+  }
+}
+.devui-tooltip.devui-flexible-overlay {
+  color: var(--devui-tooltip-text);
+  background-color: var(--devui-tooltip-bg);
+  z-index: 1060;
+}
+.pypto-scrollbar {
+  scrollbar-color: unset !important;
+
+  &::-webkit-scrollbar {
+    width: 8px !important;
+    height: 8px !important;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 8px !important;
+  }
+}
+.precision-report-wrap,
+.custom-sort-modal-wrap .custom-sort-modal-content,
+.devui-data-grid.devui-scroll-overlay,
+.devui-data-grid__body-wrapper.devui-scroll-overlay,
+.devui-drawer .health-report-content {
+  scrollbar-color: unset !important;
+
+  &::-webkit-scrollbar {
+    width: 4px !important;
+    height: 4px !important;
+  }
+
+  &::-webkit-scrollbar-corner {
+    background-color: transparent !important;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 8px !important;
+    background-color: var(--devui-placeholder) !important;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent !important;
+  }
+}
+.dp-category-search-line-container {
+  scrollbar-color: unset !important;
+
+  &::-webkit-scrollbar {
+    width: 2px !important;
+    height: 2px !important;
+  }
+
+  &::-webkit-scrollbar-corner {
+    background-color: transparent !important;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 8px !important;
+    background-color: var(--devui-placeholder) !important;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent !important;
+  }
+}
+.drawer-fade {
+  &-enter-active {
+    transition: all $devui-animation-duration-slow $devui-animation-ease-in-out-smooth;
+  }
+
+  &-leave-active {
+    transition: all $devui-animation-duration-slow $devui-animation-ease-in-out-smooth;
+  }
+
+  &-enter-from,
+  &-leave-to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+.devui-message .devui-message__content {
+  display: inline !important;
+}
+.hide-category-search-dropdown {
+  display: none !important;
+}
+input,
+input:focus {
+  outline: none !important;
+}

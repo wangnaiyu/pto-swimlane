@@ -1,0 +1,99 @@
+.process-header {
+  background-color: var(--devui-global-bg);
+  display: flex;
+  height: 30px;
+  cursor: pointer;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.process-header.no-sticky {
+  position: relative;
+}
+
+.process-header-label {
+  background: var(--devui-header-label);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--devui-primary-text);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 22px;
+  letter-spacing: 0px;
+  text-align: left; 
+  width: 250px;
+  border-bottom: 1px solid var(--devui-swim-split-line);
+}
+
+.label_one {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  width: 145px;
+}
+.label_one  span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.process-header-line {
+  flex: 1;
+  position: relative;
+  background: var(--devui-header-label);
+  border-bottom: 1px solid var(--devui-swim-split-line);
+}
+
+.process-header-label,
+.process-header-line {
+  background-color: var(--devui-input-hover-bg);
+}
+
+.expand-icon {
+  margin-left: 16px;
+  margin-right: 4px;
+  font-family: monospace;
+  font-weight: bold;
+  text-align: center;
+}
+
+.dropDown {
+  width: 16px;
+  height: 16px;
+  margin-top: 8px;
+}
+
+.collapse {
+  width: 16px;
+  height: 16px;
+  margin-top: 8px;
+}
+
+.process-header-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: transparent;
+}
+
+.process-hover-header-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: transparent;
+}
+
+.expand-icon-mode {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}

@@ -1,0 +1,151 @@
+/* 一段时间轴区域 */
+.fixed-timeline-area {
+  display: flex;
+  position: sticky;
+  top: 0;
+  height: 20px;
+  z-index: 11;
+  background: var(--devui-swim-global-bg);
+}
+
+.fixed-timeline-placeholder {
+  background: #2d2d30;
+  border-right: 1px solid #3e3e42;
+}
+
+.fixed-timeline-canvas {
+  height: 20px;
+  background: var(--devui-swim-global-bg);
+}
+
+/* 二段时间轴区域 */
+.timeline-area {
+  position: sticky;
+  top: 20px;
+  display: flex;
+  height: 40px;
+  z-index: 10;
+  background: var(--devui-swim-global-bg);
+  border-bottom: 1px solid #3e3e42;
+}
+
+.timeline-placeholder {
+  background: #2d2d30;
+  border-right: 1px solid #3e3e42;
+}
+
+.timeline-canvas {
+  height: 40px;
+  background: var(--devui-swim-global-bg);
+}
+
+.hover-flags-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 12;
+  background: transparent;
+}
+.hover-flags-line-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 12;
+  background: transparent;
+}
+.flags-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 13;
+  background: transparent;
+}
+
+.flagtooltip {
+  position: absolute;
+  background: var(--devui-tooltip-bg);
+  border: 1px solid var(--devui-swim-split-line);
+  border-radius: 8px;
+  font-size: 12px;
+  z-index: 1000;
+  word-wrap: break-word;
+  color: var(--devui-tooltip-text);
+  width: 60px;
+  height: 32px;
+  .devui-button--outline {
+    background: none;
+  }
+}
+
+.edit-model {
+  width: 184px;
+  height: 234px;
+  border-radius: 8px;
+  position: fixed;
+  background: var(--devui-tooltip-bg);
+  border: 1px solid var(--devui-swim-split-line);
+  font-size: 12px;
+  z-index: 1000;
+  word-wrap: break-word;
+  color: var(--devui-tooltip-text);
+  display: none;
+}
+
+.head {
+  display: flex;
+}
+
+.edit-title {
+  width: auto;
+  height: 22px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: var(--devui-swim-text-title);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 22px;
+  letter-spacing: 0px;
+  text-align: left;
+  margin-left: 12px;
+  margin-top: 12px;
+}
+
+.edit-close-button {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 4px;
+  right: 12px;
+  cursor: pointer;
+  color: var(--devui-swim-text-title);
+}
+
+.edit-time {
+  display: flex;
+  flex-direction: column;
+  margin-left: 12px;
+  margin-top: 12px;
+  gap: 4px;
+}
+
+.edit-color {
+  display:flex;
+  flex-direction:column;
+  margin: 12px 12px;
+  gap: 4px;
+}
+
+.edit-label {
+  display: flex;
+  flex-direction: column;
+  margin-left: 12px;
+  margin-top: 12px;
+  gap: 4px;
+}
