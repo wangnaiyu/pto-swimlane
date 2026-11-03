@@ -1357,7 +1357,7 @@ const rightmove = (step=30, forceTransform=false) => {
   }
 };
 
-const scrollToEventByDom = (event) => {
+const scrollToEventByDom = (event, behavior = 'smooth') => {
   let container;
   let isAicpuKernel = false;
   const pid = event?.pid;
@@ -1396,7 +1396,7 @@ const scrollToEventByDom = (event) => {
   
   container.scrollTo({
     top: targetScrollTop,
-    behavior: 'smooth'
+    behavior
   });
 };
 

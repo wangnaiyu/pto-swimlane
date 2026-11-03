@@ -2,9 +2,9 @@
 import {ref,computed} from 'vue';
 const props=defineProps<{remote:any}>();
 const dialog=ref<HTMLDialogElement>(),items=ref<any[]>([]),selected=ref<string[]>([]),loading=ref(false),deleting=ref(false),confirming=ref(false),error=ref(''),result=ref('');
-const removable=computed(()=>items.value.filter(d=>!d.active));
+const removable=computed(()=>items.value.filter(d=>!d.active&&!d.selected));
 const summary=computed(()=>selected.value.map(id=>items.value.find(d=>d.id===id)?.filename??id).join('、'));
-const explain=(e:any)=>({SESSION_EXPIRED:'浏览器授权已过期，请在原对话重新打开入口。',ACTIVE_DATASET:'不能删除当前使用的数据集，请刷新列表后重试。',NOT_FOUND:'部分文件已被删除，请刷新列表。'} as any)[e?.message]??'操作失败，请重试。';
+const explain=(e:any)=>({SESSION_EXPIRED:'浏览器授权已过期，请让 Agent 重新打开分析入口。',ACTIVE_DATASET:'不能删除当前使用的数据集，请刷新列表后重试。',NOT_FOUND:'部分文件已被删除，请刷新列表。'} as any)[e?.message]??'操作失败，请重试。';
 async function load(){loading.value=true;error.value='';try{items.value=(await props.remote.listFiles()).items;selected.value=[];confirming.value=false;}catch(e){error.value=explain(e);}finally{loading.value=false;}}
 async function open(){dialog.value?.showModal();result.value='';await load();}
 async function remove(){deleting.value=true;error.value='';const ids=[...selected.value];try{const r=await props.remote.deleteFiles(ids);await load();result.value=`已删除 ${r.deleted.length} 份数据集`;if(r.failed.length)error.value=`${r.failed.length} 份删除失败，请重试。`;}catch(e){error.value=explain(e);confirming.value=false;}finally{deleting.value=false;}}
@@ -18,7 +18,7 @@ function close(){if(!deleting.value)dialog.value?.close();}
 <p v-if="error" role="alert">{{error}}</p><p v-if="result" role="status">{{result}}</p>
 <p v-if="loading" role="status">正在加载文件列表…</p>
 <template v-else><label class="select-all"><input type="checkbox" :disabled="deleting || !removable.length" :checked="!!removable.length && selected.length===removable.length" @change="selected=($event.target as HTMLInputElement).checked ? removable.map(d=>d.id) : [];confirming=false" /> 全选可删除版本</label>
-<div class="file-list"><label v-for="d in items" :key="d.id" class="file-row"><input v-model="selected" type="checkbox" :value="d.id" :disabled="d.active || deleting" :aria-label="`${d.filename} ${d.id}`" @change="confirming=false"/><span><strong>{{d.filename}}</strong><small>{{new Date(d.created).toLocaleString('zh-CN')}} · {{d.id}}</small></span><b v-if="d.active" class="current-badge">当前使用</b></label><p v-if="!items.length">当前会话暂无数据集。</p></div>
+<div class="file-list"><label v-for="d in items" :key="d.id" class="file-row"><input v-model="selected" type="checkbox" :value="d.id" :disabled="d.active || d.selected || deleting" :aria-label="`${d.filename} ${d.id}`" @change="confirming=false"/><span><strong>{{d.filename}}</strong><small>{{new Date(d.created).toLocaleString('zh-CN')}} · {{d.id}}</small></span><b v-if="d.active || d.selected" class="current-badge">当前使用</b></label><p v-if="!items.length">当前会话暂无数据集。</p></div>
 </template>
 <footer><template v-if="confirming"><p>确认永久删除所选 {{selected.length}} 份旧数据集？<br />{{summary}}</p><button class="pto-file-button" :disabled="deleting" @click="confirming=false">取消</button><button class="pto-file-button" :disabled="deleting" @click="remove">{{deleting?'正在删除…':'确认删除'}}</button></template><template v-else><span>已选择 {{selected.length}} 份</span><button class="pto-file-button" :disabled="loading || deleting" @click="load">刷新列表</button><button class="pto-file-button" :disabled="!selected.length || loading || deleting" @click="confirming=true">删除所选（{{selected.length}}）</button></template></footer>
 </dialog></Teleport>

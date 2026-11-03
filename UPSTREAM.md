@@ -27,3 +27,11 @@ App.vue 增加服务器上传和稳定 view 跟随，原顶栏与泳道保留。
 ## 公开分发整理（0.4.0）
 
 仅整理公开文档、可复用脚本与安装分发；服务运行基线仍为0.4.0-local.22。提取源码和原始来源哈希保持。环境专属诊断、部署验收材料留在本地私有记录，不随公开仓库分发。
+
+## 自动授权与对话选择适配（0.4.1-local.1）
+
+App.vue 使用自动授权状态与对话关联状态，旧链接保留手工同步；沿用现有泳道 shell 和控件，不迁移视觉系统。新增 remote/analysis-sessions.ts，并调整 remote/http、remote-client、RunManager、FileManager：按对话保存历史文件版本，页面加载自动兑换入口，查询前解析选择。App.vue 的 extractedSha256 已更新，原 upstreamSha256、来源 commit、LICENSE 与第三方声明不变。
+
+## 原生任务定位适配（0.4.1-local.2）
+
+App.vue 为当前快照绑定组件实例；swimGraphComplete.vue 将既有 seqNo/taskId 定位逻辑扩展为可等待的精确 event_id 选中/滚动与可见性回执，并提供受控方法；swimGraphHeader.vue 允许原生定位使用立即滚动，原入口仍默认平滑滚动。上述提取文件同步 extractedSha256，upstreamSha256、原版权和许可保持不变。新增 remote/task-focus.ts 及远程 MCP/浏览器通信适配属于本地代码。

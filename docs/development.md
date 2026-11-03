@@ -16,6 +16,8 @@ npm run dev
 npm run test:remote
 npx playwright install chromium
 npm run test:remote-browser
+npm run test:remote-analysis-browser
+npm run test:remote-focus-browser
 python3 tests/macos-installer.py
 python3 tests/macos-config-migration.py
 python3 tests/windows-installer.py /path/to/pwsh scripts/windows
@@ -26,3 +28,5 @@ npm run pack:windows
 Python 测试需要 3.11+。macOS 安装夹具使用系统调用替身；Windows 跨平台 PowerShell 测试覆盖语法、TOML、配置替换及失败保护，不替代 Windows 原生 DPAPI、ACL、双击或桌面验收。ZIP 由规范脚本确定性打包，包含安装文件及许可；不含运行数据、凭据或源码构建目录。
 
 `npm run pack:local` 可构建本地源码安装候选，不向 npm 发布。Release 的两个 ZIP 是连接既有远程服务的安装器，不是服务器可执行包。
+
+原生定位测试见 tests/remote-focus.test.ts（身份、并发领取、过期与授权边界）和 tests/remote-focus-browser.ts（人工 L2 同名任务、折叠/视口外泳道、MCP 发起选中与滚动、刷新不重放和重新授权）。定位操作不使用测试端点击或搜索输入。

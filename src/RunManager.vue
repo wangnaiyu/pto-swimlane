@@ -5,14 +5,14 @@ const dialog=ref<HTMLDialogElement>(),items=ref<any[]>([]),loading=ref(false),wo
 const time=(n:number)=>new Date(n).toLocaleString('zh-CN');
 const state=(r:any)=>r.busy?'处理中':({active:'可用',inactive:'已停用',expired:'已过期',deleting:'正在删除'} as any)[r.state]??r.state;
 const protectedRun=(r:any)=>r.id===props.remote.view.value||r.busy;
-const message=(e:any)=>({CURRENT_VIEW:'当前分析受保护，请先切换到其他分析。',VIEW_BUSY:'该分析正在上传、排队或解析，请稍后重试。',VIEW_EXPIRED:'该分析已过期，将自动删除。',NOT_FOUND:'分析不存在、已停用或已被删除，请刷新列表。',SESSION_EXPIRED:'浏览器授权已过期，请在原对话重新打开入口。'} as any)[e?.message]??'操作失败，请重试。';
+const message=(e:any)=>({CURRENT_VIEW:'当前分析受保护，请先切换到其他分析。',VIEW_BUSY:'该分析正在上传、排队或解析，请稍后重试。',VIEW_EXPIRED:'该分析已过期，将自动删除。',NOT_FOUND:'分析不存在、已停用或已被删除，请刷新列表。',SESSION_EXPIRED:'浏览器授权已过期，请让 Agent 重新打开分析入口。'} as any)[e?.message]??'操作失败，请重试。';
 async function load(){loading.value=true;error.value='';try{items.value=(await props.remote.listRuns()).items;}catch(e){error.value=message(e);}finally{loading.value=false;}}
 async function open(){selected.value=null;editing.value='';dialog.value?.showModal();await load();}
 async function act(r:any,action:string,data:any={}){working.value=true;error.value='';try{const result=await props.remote.runAction(r.id,action,data);if(action==='open'){dialog.value?.close();location.hash=new URL(result.upload_url).hash;return;}selected.value=null;editing.value='';await load();}catch(e){error.value=message(e);}finally{working.value=false;}}
 function close(){if(!working.value)dialog.value?.close();}
 </script>
 <template>
-<button class="pto-file-button manager-trigger" :disabled="!remote.ready.value" @click="open">运行记录</button>
+<button class="pto-file-button manager-trigger" :disabled="!remote.ready.value || remote.uploading.value" @click="open">{{remote.dataset.value ? '运行记录' : '使用历史文件'}}</button>
 <Teleport to="body"><dialog ref="dialog" class="file-manager run-manager" aria-labelledby="run-manager-title" @cancel="working && $event.preventDefault()">
 <header><h2 id="run-manager-title">运行记录</h2><button class="pto-file-button manager-trigger" :disabled="working" @click="close">关闭</button></header>
 <p>分析会话创建后保留 7 天，持续使用、停用不会自动延长到期时间，到期后将自动删除。</p>
@@ -20,7 +20,8 @@ function close(){if(!working.value)dialog.value?.close();}
 <div v-else class="run-list">
 <article v-for="r in items" :key="r.id" class="run-row" :data-run-id="r.id">
 <div class="run-title"><strong>{{r.name}}</strong><b v-if="r.id===remote.view.value" class="current-badge">当前分析</b><b class="current-badge">{{state(r)}}</b></div>
-<p>{{r.datasets.map((d:any)=>d.filename).join('、') || '尚未上传文件'}}</p>
+<p v-if="!r.datasets.length">尚未上传文件</p>
+<p v-for="d in r.datasets" :key="d.id"><span>{{d.filename}}</span> <button class="pto-file-button manager-trigger" :disabled="working || r.state!=='active' || remote.uploading.value" @click="act(r,'open',{dataset_id:d.id})">使用此文件</button><small> · {{time(d.created)}}</small></p>
 <small>{{r.datasets.length}} 份数据集 · {{(r.bytes/1048576).toFixed(1)}} MiB · 创建 {{time(r.created)}} · 到期 {{time(r.expires_at)}}</small>
 <div v-if="editing===r.id" class="run-actions"><input v-model="name" aria-label="分析名称" maxlength="100" /><button class="pto-file-button manager-trigger" :disabled="working||!name.trim()" @click="act(r,'rename',{name})">保存名称</button><button class="pto-file-button manager-trigger" :disabled="working" @click="editing=''">取消</button></div>
 <div v-else class="run-actions">

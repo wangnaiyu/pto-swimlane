@@ -1,6 +1,6 @@
 {
   "name": "pto-swimlane",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "private": true,
   "type": "module",
   "scripts": {
@@ -23,7 +23,9 @@
     "test:remote-browser": "node --import tsx tests/remote-browser.ts",
     "test:remote-codex": "node --import tsx tests/remote-auth-codex.ts",
     "pack:macos": "python3 scripts/package-macos.py .local/PTO-Swimlane-MCP-macOS.zip",
-    "pack:windows": "python3 scripts/package-windows.py scripts/windows .local/PTO-Swimlane-MCP-Windows.zip"
+    "pack:windows": "python3 scripts/package-windows.py scripts/windows .local/PTO-Swimlane-MCP-Windows.zip",
+    "test:remote-analysis-browser": "node --import tsx tests/remote-analysis-browser.ts",
+    "test:remote-focus-browser": "node --import tsx tests/remote-focus-browser.ts"
   },
   "dependencies": {
     "@material/material-color-utilities": "^0.3.0",
