@@ -10,7 +10,7 @@ names = ['README.md', 'setup-pto-swimlane-windows.cmd', 'setup-pto-swimlane-wind
 root = pathlib.Path(__file__).resolve().parents[1]
 legal = ['LICENSE', 'Third_Party_Open_Source_Software_List.yaml', 'Third_Party_Open_Source_Software_Notice', 'UPSTREAM.md']
 names += legal
-manifest = {'release_version': json.loads((root / 'package.json').read_text())['version'], 'installer_version': 'windows-2', 'service_compatibility': '0.4.0-local.22', 'files': {}}
+manifest = {'release_version': json.loads((root / 'package.json').read_text())['version'], 'installer_version': 'windows-2', 'service_compatibility': '0.4.1', 'files': {}}
 output.parent.mkdir(parents=True, exist_ok=True)
 with zipfile.ZipFile(output, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
     for name in names:

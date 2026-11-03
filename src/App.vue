@@ -11,15 +11,16 @@ import {useTheme} from './theme/use-theme';
 import {current,notice} from './standalone';
 useTheme();
 const recoveryCopied=ref(false);
-const recoveryPrompt=computed(()=>`请保持 view_session_id=${remote.view.value}，重新生成并在内置浏览器打开泳道入口，恢复已有数据，不重新上传。`);
+const recoveryPrompt=computed(()=>`使用 pto-swimlane-mcp 重新打开分析，保留 ${remote.analysis.value ? `analysis_session_id=${remote.analysis.value}` : `view_session_id=${remote.view.value}`}，自动建立浏览器授权并恢复已有选择。`);
 async function copyRecovery(){try{await navigator.clipboard.writeText(recoveryPrompt.value);recoveryCopied.value=true;}catch{recoveryCopied.value=false;}}
 const toolbar=ref<HTMLDivElement>();let toolbarObserver:ResizeObserver|undefined;
 const fileInput=ref<HTMLInputElement>(),localName=ref(''),localFailed=ref(false);
+const graph=ref<any>();
 const busy=ref(false), version=ref(0), elapsed=ref(0), sourceLabel=ref('仅在浏览器中打开');
 const mcpMode=ref(new URLSearchParams(location.hash.slice(1)).has('dataset'));
 let requestVersion=0;
 const remoteMode=ref(new URLSearchParams(location.hash.slice(1)).has('view'));
-const remote=remoteClient({prepare:()=>{void loadGraph().catch(()=>{});},generation:()=>requestVersion,begin:()=>{busy.value=true;return ++requestVersion;},show:s=>{sourceLabel.value='已连接 agent';current.value={data:s.data,title:s.title};elapsed.value=s.parseMs;version.value++;},clear:()=>{current.value=null;},busy:b=>busy.value=b,notice:s=>notice.value=s});
+const remote=remoteClient({canFocus:()=>!busy.value&&!!graph.value?.canFocusTask?.(),focus:(command,valid)=>{const instance=graph.value,snapshot=current.value;return instance.focusTask(command,()=>valid()&&graph.value===instance&&current.value===snapshot&&snapshot?.dataset_id===command.dataset_id&&!busy.value);},prepare:()=>{void loadGraph().catch(()=>{});},generation:()=>requestVersion,begin:()=>{busy.value=true;return ++requestVersion;},show:s=>{sourceLabel.value='已连接 agent';current.value={data:s.data,title:s.title,dataset_id:s.dataset_id};elapsed.value=s.parseMs;version.value++;},clear:()=>{current.value=null;},busy:b=>busy.value=b,notice:s=>notice.value=s});
 
 const fileLabel=computed(()=>remoteMode.value?(remote.uploadFailed.value?'上传失败':remote.selectedName.value||current.value?.title||'未选择文件'):(localFailed.value?'上传失败':localName.value||current.value?.title||'未选择文件'));
 function beginLoad(){const request=++requestVersion;busy.value=true;notice.value='';current.value=null;return request;}
@@ -54,7 +55,7 @@ async function sample(id:string){const request=beginLoad();try{const r=await fet
 </script>
 <template>
  <div ref="toolbar" class="local-bar" :data-version="version" :data-dataset="remote.dataset.value">
-  <button v-if="remoteMode && remote.grant.value" @click="remote.enter">进入上传页面</button>
+  <span v-if="remoteMode && remote.authorizing.value" role="status">正在建立浏览器授权…</span>
   <input ref="fileInput" class="file-input" aria-label="打开本地泳道和拓扑文件" type="file" accept=".json,.txt" multiple :disabled="remoteMode ? !remote.ready.value || remote.uploading.value : busy" @change="local" />
   <RunManager v-if="remoteMode" :remote="remote" />
   <FileManager v-if="remoteMode" :remote="remote" />
@@ -66,14 +67,14 @@ async function sample(id:string){const request=beginLoad();try{const r=await fet
   <span v-if="remoteMode && remote.loadError.value" role="alert">{{remote.loadError.value}} <button class="pto-file-button sync-button" @click="remote.retryLoad">重试载入</button></span>
   <span v-if="remoteMode && remote.uploadFailed.value" class="failure-explanation" role="alert"><strong>上传失败</strong> · {{remote.failureReason.value}}</span>
   <span v-else-if="remoteMode && notice" role="alert" class="remote-notice" :title="notice">{{notice}}</span>
-  <span v-if="remoteMode" class="agent-status" :title="remote.syncConfirmed.value ? 'Agent 已确认此分析；不代表实时在线' : '请在当前对话完成同步确认'">{{remote.syncConfirmed.value ? '已连接 Agent' : '未连接 Agent'}} <button class="pto-file-button sync-button" :disabled="!remote.ready.value || !remote.dataset.value || remote.syncBusy.value" @click="remote.requestSync">重新同步</button></span>
+  <span v-if="remoteMode" class="agent-status" :title="remote.linked.value ? '已记住此页面的文件选择；回到发起分析的对话提问时自动读取，不代表 Agent 实时在线' : remote.syncConfirmed.value ? 'Agent 已确认此分析；不代表实时在线' : '请在当前对话完成同步确认'">{{remote.linked.value ? '已关联当前对话' : remote.syncConfirmed.value ? '已连接 Agent' : '未连接 Agent'}} <button v-if="!remote.linked.value" class="pto-file-button sync-button" :disabled="!remote.ready.value || !remote.dataset.value || remote.syncBusy.value" @click="remote.requestSync">重新同步</button></span>
   <span v-else-if="current" class="agent-status" tabindex="0" :title="remote.dataset.value ? `当前数据集 ID：${remote.dataset.value}` : sourceLabel">{{sourceLabel}}</span>
  </div>
  <div v-if="remoteMode && remote.syncVisible.value" class="sync-instructions" role="region" aria-label="同步 Agent" @keydown.esc="remote.syncVisible.value=false"><div class="sync-header"><p role="status">{{remote.syncMessage.value}}</p><button v-if="remote.syncPrompt.value" class="pto-file-button sync-button" @click="remote.copySync">复制口令</button><button class="pto-file-button sync-button" @click="remote.syncVisible.value=false">关闭同步提示</button></div><textarea v-if="remote.syncPrompt.value" aria-label="同步口令" readonly :value="remote.syncPrompt.value" /></div>
  <p v-if="notice && !remoteMode" role="alert" class="notice">{{notice}}</p>
- <div v-if="remoteMode && remote.recoveryNeeded.value" class="empty" role="status"><p>返回原对话，点击“重新打开泳道图”，或复制以下口令：</p><p>{{recoveryPrompt}}</p><button class="pto-file-button" @click="copyRecovery">{{recoveryCopied ? '已复制' : '复制恢复口令'}}</button></div>
- <SwimGraph v-if="current" :key="version" />
- <div v-else-if="!busy && !remote.recoveryNeeded.value" class="empty">选择 merged_swimlane.json，可同时选择同组 dyn_topo.txt。{{remoteMode ? "文件直接上传到服务器解析；随后在原对话继续提问即可。" : "文件在本机浏览器解析。"}}</div>
+ <div v-if="remoteMode && remote.recoveryNeeded.value" class="empty" role="status"><p>在任意对话说“使用 pto-swimlane-mcp 分析性能”，即可重新进入并选择历史文件。要恢复此页面的选择，可复制以下口令：</p><p>{{recoveryPrompt}}</p><button class="pto-file-button" @click="copyRecovery">{{recoveryCopied ? '已复制' : '复制恢复口令'}}</button></div>
+ <SwimGraph ref="graph" v-if="current" :key="version" />
+ <div v-else-if="!busy && !remote.recoveryNeeded.value" class="empty">选择 merged_swimlane.json，可同时选择同组 dyn_topo.txt。{{remoteMode ? "文件直接上传到服务器解析；也可点击“使用历史文件”。选择完成后直接回到发起分析的对话提问，无需复制同步口令。" : "文件在本机浏览器解析。"}}</div>
 </template>
 <style>
 body{margin:0;font-family:Arial,sans-serif;font-size:13px;color:var(--devui-text);background:var(--devui-base-bg)} .local-bar{min-height:40px;height:auto;display:flex;align-items:center;gap:12px;padding:0 12px;background:var(--devui-base-bg);color:var(--devui-text);font:12px sans-serif;box-sizing:border-box} .local-bar input{max-width:210px} .local-bar label{flex-shrink:0} .file-status,.remote-notice{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .file-status{flex:0 1 auto;max-width:40%}.parse-time,.agent-status{flex-shrink:0}.agent-status{margin-left:auto}.upload-status{white-space:nowrap} .remote-notice{max-width:45%} .notice{position:fixed;bottom:8px;left:16px;z-index:9999;background:var(--devui-base-bg);padding:8px;color:var(--devui-text)} .empty{padding:40px;color:var(--devui-text);font:14px sans-serif} .swim-global-container{height:calc(100vh - var(--upload-bar-height,40px))!important}

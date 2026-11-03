@@ -3651,13 +3651,17 @@ onUnmounted(() => {
   onVerticalScroll.cancel();
 });
 
-const locateEventBySeqNoTaskId = (seqNo, taskId) => {
+const locateEventBySeqNoTaskId = async (seqNo, taskId, native = null) => {
+  native?.guard();
   if (isPerfSwim.value || isMsProf.value) {
+    if (native) throw Error('TASK_NOT_FOUND');
     server.showMessage({ paramObj: { text: $t('swimGraphUnsupportedType') } });
     return;
   }
-  const entry = swimDataManager.getEventBySeqNoTaskId(seqNo, taskId);
+  const exact = native ? swimDataManager.getEventById(native.event_id) : null;
+  const entry = native ? (exact && String(exact.args?.seqNo) === seqNo && String(exact.args?.taskId) === taskId ? {event: exact, processKey: exact.processKey} : null) : swimDataManager.getEventBySeqNoTaskId(seqNo, taskId);
   if (!entry) {
+    if (native) throw Error('TASK_NOT_FOUND');
     server.showMessage({ paramObj: { text: $t('swimGraphNodeNotFound', { seqNo, taskId }) } });
     return;
   }
@@ -3665,7 +3669,9 @@ const locateEventBySeqNoTaskId = (seqNo, taskId) => {
   if (!processExpanded.get(foundProcessKey)) {
     toggleProcess(foundProcessKey);
   }
-  nextTick(async () => {
+  await nextTick();
+  native?.guard();
+  {
     const eventX = foundEvent.renderInfo?.x || 0;
     const eventW = foundEvent.renderInfo?.width || 0;
     const eventWidth = eventW * viewState.scale;
@@ -3676,7 +3682,7 @@ const locateEventBySeqNoTaskId = (seqNo, taskId) => {
       timelineComponent.value?.changeScale(zoomFactor, screenCenterX, false, false);
     }
     const wasPanelClosed = !detailsPanelExpanded.value;
-    selectEvent(foundEvent, foundProcessKey);
+    selectEvent(foundEvent, foundProcessKey, true, !!native);
     if (wasPanelClosed) {
       await new Promise(resolve => {
         const detailPanel = document.querySelector('.details-panel');
@@ -3688,16 +3694,53 @@ const locateEventBySeqNoTaskId = (seqNo, taskId) => {
         }
       });
     }
-    swimgraphHeaderComponent.value?.scrollToEventByDom(foundEvent);
+    native?.guard();
+    swimgraphHeaderComponent.value?.scrollToEventByDom(foundEvent, native ? 'instant' : 'smooth');
     const scaledCenterX = (eventX + eventW / 2) * viewState.scale;
-    const targetOffsetX = canvasCssWidth / 2 - scaledCenterX;
+    const targetOffsetX = (viewState.canvasCssWidth || canvasCssWidth) / 2 - scaledCenterX;
     const shift = targetOffsetX - viewState.offsetX;
     if (shift > 0) {
       swimgraphHeaderComponent.value?.rightmove(shift, true);
     } else if (shift < 0) {
       swimgraphHeaderComponent.value?.leftmove(-shift, true);
     }
+  }
+  return foundEvent;
+};
+
+
+let focusMounted = true;
+onUnmounted(() => { focusMounted = false; });
+const canFocusTask = () => focusMounted && traceReady.value && !loading.value && !!swimgraphHeaderComponent.value;
+// The caller binds this component instance to an immutable dataset and guards every async boundary.
+const focusTask = async (command, isCurrent) => {
+  const guard = () => {
+    if (!focusMounted || !isCurrent()) throw Error('SELECTION_CHANGED');
+    if (document.visibilityState !== 'visible') throw Error('PAGE_NOT_VISIBLE');
+  };
+  guard();
+  if (!canFocusTask()) throw Error('RENDER_NOT_READY');
+  const event = await locateEventBySeqNoTaskId(command.task.seqNo, command.task.taskId, {event_id:command.task.event_id, guard});
+  await nextTick();
+  // Two frames allow selection and scroll-triggered canvas painting before acknowledgment.
+  await new Promise((resolve, reject) => {
+    let frame = 0;
+    const timeout = setTimeout(() => { cancelAnimationFrame(frame); reject(Error('RENDER_NOT_READY')); }, 1000);
+    frame = requestAnimationFrame(() => { frame = requestAnimationFrame(() => { clearTimeout(timeout); resolve(); }); });
   });
+  guard();
+  const processKey = CSS.escape(String(event.processKey));
+  const process = swimlaneContainer.value?.querySelector(`[data-process-container="${processKey}"]`);
+  const canvas = swimlaneContainer.value?.querySelector(`[data-process-key="${processKey}"]`);
+  const scroll = isE2ESwim.value ? swimlaneContainer.value?.querySelector(swimDataManager.getProcess(event.processKey)?.type === 'aicpu' ? '.aicpu-section' : '.kernel-section') : swimlaneContainer.value;
+  if (!process || !canvas || !scroll || !event.renderInfo) throw Error('TASK_NOT_VISIBLE');
+  const rect = process.getBoundingClientRect(), viewport = scroll.getBoundingClientRect(), c = canvas.getBoundingClientRect();
+  const x = c.left + event.renderInfo.x * viewState.scale + viewState.offsetX;
+  const y = rect.top + event.renderInfo.y;
+  const right = Math.min(c.right, viewport.right, window.innerWidth), bottom = Math.min(viewport.bottom, window.innerHeight);
+  const visible = x < right && x + Math.max(1,event.renderInfo.width * viewState.scale) > Math.max(c.left,viewport.left,0) && y < bottom && y + event.renderInfo.height > Math.max(viewport.top,0);
+  if (selectedEvent.value?.id !== event.id || !detailsPanelExpanded.value || !visible) throw Error('TASK_NOT_VISIBLE');
+  return {event_id:event.id,seqNo:String(event.args.seqNo),taskId:String(event.args.taskId)};
 };
 
 watch(() => server.locateNodeResult?.value, (newVal) => {
@@ -3823,6 +3866,8 @@ const isCoreUtilizationSupported = (isSelection, process = null) => {
   }
 };
 defineExpose({
+  canFocusTask,
+  focusTask,
   setPageState,
   loadTraceData,
   loading,
